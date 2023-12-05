@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-router-dom@6.20.1/dist/umd/react-router-dom.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <title></title>
+</head>
+
+<body>
+<div id="sse"></div>
+
+<script type="text/babel">
+
+    var sse = new EventSource('/ai/stream');
+    sse.onmessage = function (evt) {
+        var el = document.getElementById('sse');
+        console.log(evt)
+        var data = evt.data;
+        el.appendChild(document.createTextNode(data.replace("SPACE ", '\u00A0')));
+    };
+    sse.onerror = function (evt) {
+       sse.close()
+    }
+
+</script>
+
+</body>
+</html>

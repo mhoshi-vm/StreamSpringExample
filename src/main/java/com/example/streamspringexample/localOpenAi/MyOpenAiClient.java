@@ -29,7 +29,13 @@ public class MyOpenAiClient extends OpenAiClient {
         return openAiService.streamChatCompletion(completionRequest)
                 .filter(completionChunk ->
                         completionChunk.getChoices().get(0) != null && completionChunk.getChoices().get(0).getMessage() != null && completionChunk.getChoices().get(0).getMessage().getContent() != null).map(
-                        completionChunk -> completionChunk.getChoices().get(0).getMessage().getContent());
+                        completionChunk -> {
+                            String content = completionChunk.getChoices().get(0).getMessage().getContent();
+                            if(content.startsWith(" ")){
+                                content = "SPACE" + content;
+                            }
+                            return content;
+                        });
     }
 
 }
